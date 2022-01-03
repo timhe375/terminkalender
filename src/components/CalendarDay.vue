@@ -1,8 +1,6 @@
 <template>
   <div id="calendar-day">
-    <!-- Anfang: Template für die Calendar-Event-Component -->
     <CalendarEvent />
-    <!-- Ende: Template für die Calendar-Event-Component -->
   </div>
 </template>
 
