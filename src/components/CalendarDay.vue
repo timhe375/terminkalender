@@ -1,6 +1,11 @@
 <template>
-  <div id="calendar-day">
-    <CalendarEvent />
+  <div class="card">
+    <div class="card-header text-center" role="button">
+      <strong>Montag</strong>
+    </div>
+    <div class="card-body">
+      <CalendarEvent />
+    </div>
   </div>
 </template>
 
