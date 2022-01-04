@@ -12,7 +12,14 @@
         v-for="event in day.events"
         :key="event.title"
         :event="event"
-      />
+      >
+        <template v-slot:eventPriority="slotProps"
+          ><h5>{{ slotProps.priorityDisplayName }}</h5></template
+        >
+        <template v-slot="{ event }">
+          <i>{{ event.title }}</i></template
+        >
+      </CalendarEvent>
     </div>
   </div>
 </template>
