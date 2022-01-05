@@ -1,7 +1,7 @@
 <template>
   <div id="calendar-event">
     <div class="alert text-center" :class="alertColor">
-      <div v-if="!event.edit">
+      <template v-if="!event.edit">
         <div>
           <slot name="eventPriority" :priorityDisplayName="priorityDisplayName"
             ><strong>{{ priorityDisplayName }}</strong></slot
@@ -18,10 +18,17 @@
           <i class="fas fa-edit me-2" role="button" @click="editEvent"></i>
           <i class="far fa-trash-alt" role="button" @click="deleteEvent"></i>
         </div>
-      </div>
-      <div v-else>
-        <p>Kein Event</p>
-      </div>
+      </template>
+      <template v-else>
+        <input
+          type="text"
+          class="form-control"
+          :placeholder="event.title"
+          @input="setNewEventTitle($event)"
+        />
+        <hr />
+        <i class="fas fa-check" role="button" @click="updateEvent"></i>
+      </template>
     </div>
   </div>
 </template>
@@ -33,6 +40,11 @@ export default {
   props: {
     event: Object,
     day: Object,
+  },
+  data() {
+    return {
+      newEventTitle: "",
+    };
   },
   computed: {
     priorityDisplayName() {
@@ -56,6 +68,16 @@ export default {
     },
     editEvent() {
       Store.mutations.editEvent(this.day.id, this.event.title);
+    },
+    updateEvent() {
+      Store.mutations.updateEvent(
+        this.day.id,
+        this.event.title,
+        this.newEventTitle
+      );
+    },
+    setNewEventTitle(event) {
+      this.newEventTitle = event.target.value;
     },
   },
 };
