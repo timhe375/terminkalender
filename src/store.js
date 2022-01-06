@@ -6,6 +6,11 @@ const getters = {
   activeDay: () => state.calendarWeekData.find((day) => day.active),
 };
 const mutations = {
+  setActiveDay(dayId) {
+    state.calendarWeekData.map((dayObj) => {
+      dayObj.id === dayId ? (dayObj.active = true) : (dayObj.active = false);
+    });
+  },
   editEvent(dayId, eventTitle) {
     state.calendarWeekData.map((dayObj) => {
       dayObj.events.map((event) => (event.edit = false));
