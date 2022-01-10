@@ -2,7 +2,7 @@
   <div class="container-fluid mt-5">
     <div class="row">
       <div class="col-12">
-        <CalendarWeek />
+        <component :is="activeView" />
       </div>
     </div>
     <div class="row mt-3">
@@ -27,7 +27,9 @@
 </template>
 
 <script>
+import Store from "./store";
 import { defineAsyncComponent } from "vue";
+import CalendarWeekAsList from "./components/CalendarWeekAsList.vue";
 import CalendarWeek from "./components/CalendarWeek.vue";
 import CalendarEntry from "./components/CalendarEntry.vue";
 //import CalendarSettings from "./components/CalendarSettings.vue";
@@ -36,6 +38,7 @@ export default {
   components: {
     CalendarWeek,
     CalendarEntry,
+    CalendarWeekAsList,
     CalendarSettings: defineAsyncComponent(() => {
       return import(
         /*webpackChunkName: 'CalendarSettingsComponent'*/ "./components/CalendarSettings.vue"
@@ -55,6 +58,9 @@ export default {
   computed: {
     buttonSettingsClasses() {
       return this.displaySettings ? ["btn-success"] : ["btn-outline-success"];
+    },
+    activeView() {
+      return Store.getters.activeView();
     },
   },
 };
