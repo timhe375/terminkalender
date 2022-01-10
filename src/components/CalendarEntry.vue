@@ -15,6 +15,8 @@
           class="form-control"
           placeholder="Neuer Eintrag"
           v-model="event.title"
+          @keyup.enter.exact="submitEvent()"
+          @keyup.ctrl.enter.exact="resetEvent"
         />
         <select class="form-select mt-2" v-model="event.priority">
           <option value="-1">Hoch</option>
@@ -37,7 +39,9 @@
           <button class="btn btn-primary" @click="submitEvent">
             Eintragen
           </button>
-          <button class="btn btn-danger">Inhalt löschen</button>
+          <button class="btn btn-danger" @click="resetEvent">
+            Inhalt löschen
+          </button>
         </div>
       </div>
     </div>
@@ -85,6 +89,13 @@ export default {
         priority: 0,
       };
       this.error = false;
+    },
+    resetEvent() {
+      this.event = {
+        title: "",
+        color: "",
+        priority: 0,
+      };
     },
   },
 };
