@@ -3,7 +3,9 @@
     <div class="row">
       <div class="col-12">
         <keep-alive>
-          <component :is="activeView" />
+          <transition name="fade" mode="out-in" appear>
+            <component :is="activeView" />
+          </transition>
         </keep-alive>
       </div>
     </div>
@@ -22,7 +24,9 @@
             <i class="fas fa-cogs"></i>
           </button>
         </div>
-        <CalendarSettings v-if="displaySettings" />
+        <transition name="fade">
+          <CalendarSettings v-if="displaySettings" />
+        </transition>
       </div>
     </div>
   </div>
@@ -75,5 +79,18 @@ export default {
 .square {
   width: 40px;
   height: 40px;
+}
+/*Transition: Fade */
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.25s ease-out;
 }
 </style>

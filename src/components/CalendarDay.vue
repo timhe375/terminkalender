@@ -9,19 +9,30 @@
       <strong>{{ day.fullName }}</strong>
     </div>
     <div class="card-body">
-      <CalendarEvent
-        v-for="event in day.events"
-        :key="event.title"
-        :event="event"
-        :day="day"
-      >
-        <template v-slot:eventPriority="slotProps"
-          ><h5>{{ slotProps.priorityDisplayName }}</h5></template
-        >
-        <template v-slot="{ event }">
-          <i>{{ event.title }}</i></template
-        >
-      </CalendarEvent>
+      <transition name="fade" mode="out-in">
+        <div v-if="day.events.length">
+          <transition-group name="list">
+            <CalendarEvent
+              v-for="event in events"
+              :key="event.title"
+              :event="event"
+              :day="day"
+            >
+              <template v-slot:eventPriority="slotProps"
+                ><h5>{{ slotProps.priorityDisplayName }}</h5></template
+              >
+              <template v-slot="{ event }">
+                <i>{{ event.title }}</i></template
+              >
+            </CalendarEvent>
+          </transition-group>
+        </div>
+        <div v-else>
+          <div class="alert alert-ligth text-center">
+            Keine Termine für den Tag
+          </div>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -58,6 +69,9 @@ export default {
         ? ["bg-primary", "text-white"]
         : null;
     },
+    events() {
+      return Store.getters.events(this.day.id);
+    },
   },
   methods: {
     setActiveDay() {
@@ -67,4 +81,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 1s ease;
+}
+</style>
